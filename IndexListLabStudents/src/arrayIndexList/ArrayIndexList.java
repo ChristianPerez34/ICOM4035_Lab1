@@ -3,9 +3,9 @@ package arrayIndexList;
 import indexList.IndexList;
 
 public class ArrayIndexList<E> implements IndexList<E> {
-	private static final int INITCAP = 5; 
-	private static final int CAPTOAR = 5; 
-	private static final int MAXEMPTYPOS = 10; 
+	private static final int INITCAP = 1; 
+	private static final int CAPTOAR = 1; 
+	private static final int MAXEMPTYPOS = 2; 
 	private E[] element; 
 	private int size; 
 
@@ -20,7 +20,7 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		if(size == element.length) {
 			changeCapacity(CAPTOAR);
 		}
-		else if(size < index || index < 0) {
+		if(size < index || index < 0) {
 			throw new IndexOutOfBoundsException("add: Invalid index = " + index);
 		}
 		if(element[index] != null) {
@@ -58,7 +58,7 @@ public class ArrayIndexList<E> implements IndexList<E> {
 	public E remove(int index) throws IndexOutOfBoundsException {
 		
 		E temp = element[index];
-		if(size == element.length) {
+		if(element.length - size == MAXEMPTYPOS) {
 			changeCapacity(-CAPTOAR);
 		}
 		else if(size < index || index < 0) {
@@ -118,6 +118,11 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		// pre: 0 < low <= sup <= (element.length - 1)
 		for (int pos = low; pos <= sup; pos++)
 			element[pos-1] = element[pos]; 
+	}
+
+
+	public int capacity() {
+		return element.length;
 	}
 
 }
