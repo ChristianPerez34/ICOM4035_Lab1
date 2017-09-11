@@ -23,6 +23,9 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		else if(size < index || index < 0) {
 			throw new IndexOutOfBoundsException("add: Invalid index = " + index);
 		}
+		if(element[index] != null) {
+			moveDataOnePositionTR(index, size - 1);
+		}
 		element[index] = e;
 		size++;
 	}
@@ -45,25 +48,37 @@ public class ArrayIndexList<E> implements IndexList<E> {
 
 
 	public boolean isEmpty() {
+		if(size < 0) {
+			size = 0;
+		}
 		return size == 0;
 	}
 
 
 	public E remove(int index) throws IndexOutOfBoundsException {
-		if(size < index || index < 0) {
+		
+		E temp = element[index];
+		if(size == element.length) {
+			changeCapacity(-CAPTOAR);
+		}
+		else if(size < index || index < 0) {
 			throw new IndexOutOfBoundsException("get: Invalid index = " + index);
 		}
+		if(element[index] != null) {
+			moveDataOnePositionTL(index + 1, size - 1);
+		}
 		size--;
-		return null;
+		return temp;
 	}
 
 
 	public E set(int index, E e) throws IndexOutOfBoundsException {
+		E temp = element[index];
 		if(size < index || index < 0) {
 			throw new IndexOutOfBoundsException("get: Invalid index = " + index);
 		}
 		element[index] = e;
-		return null;
+		return temp;
 	}
 
 
